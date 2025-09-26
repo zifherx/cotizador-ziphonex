@@ -5,27 +5,32 @@ import Link from "next/link";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
 } from "../ui/sidebar";
 
-import { itemsSidebarDashboard } from "@/common/data";
+import { CustomSidebarHeader } from "./Custom-Sidebar-Header";
+import { CustomSidebarFooter } from "./Custom-Sidebar-Footer";
+
+import {
+  itemsSidebarDashboard,
+  itemsSidebarDashboard_Ventas,
+} from "@/common/data";
 
 export function AppSidebar() {
   const { state, open } = useSidebar();
 
   console.log("STATE: ", state);
   console.log("OPEN: ", open);
+
   return (
     <Sidebar>
-      <SidebarHeader />
+      <CustomSidebarHeader />
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
@@ -44,9 +49,28 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Ventas</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {itemsSidebarDashboard_Ventas.map(
+                ({ id, icon: Icon, title, url }) => (
+                  <SidebarMenuItem key={id}>
+                    <SidebarMenuButton asChild>
+                      <Link href={url}>
+                        <Icon />
+                        <span>{title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              )}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
         <SidebarGroup />
       </SidebarContent>
-      <SidebarFooter />
+      <CustomSidebarFooter />
     </Sidebar>
   );
 }
